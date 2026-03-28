@@ -1,28 +1,28 @@
-# IT TALKS BACK
+# build things that matter
 
-eine interaktive installation. neural network hintergrund, websocket-chat, minimalistisches interface.
+eine seite für cwnnwr. und für alle die so denken wie er.
 
-## wie das hier entstanden ist
+## was passiert ist
 
-ein freund — cwnnwr, 21, abi vor 1.5 jahren, gerade aus dem ausland zurück, studium startet — hat in eine gruppe geschrieben und gefragt wie er in AI einsteigen kann. seine interessen: biomedicine, molecular medicine, bio. er will lernen selber zu builden.
+cwnnwr, 21, hat in eine gruppe geschrieben. abi vor 1.5 jahren, gerade aus dem ausland zurück, studium startet. seine interessen: biomedicine, molecular medicine, AI. er will lernen selber zu builden. hat gefragt wo er anfangen soll.
 
-die nachricht hat mich gepackt. nicht weil die frage besonders war, sondern weil der spirit dahinter echt war. jemand der die welt verändern will und einen ansatzpunkt sucht.
+die nachricht hat mich gepackt. nicht weil die frage besonders war — sondern weil der spirit dahinter echt war. jemand der die welt verändern will und einen ansatzpunkt sucht.
 
-also hab ich mit claude eine ressourcen-seite für ihn gebaut. erst als text, dann als html. erst cringe, dann cool. dark theme, monospace, kein emoji-wahnsinn — etwas das sich anfühlt als hätte es jemand geschrieben der weiß wovon er redet, nicht ein linkedin motivationspost.
+also hab ich mit claude eine seite für ihn gebaut. python, alphafold, crispr, claude code, die richtigen communities, die richtigen leute auf twitter, einen 90-tage-plan. erst als text, dann als html. erst cringe AI-slop, dann iteriert bis es sich echt anfühlt. dark theme, monospace, kein emoji-wahnsinn — etwas das sich liest als hätte es jemand geschrieben der weiß wovon er redet.
 
-parallel dazu ist dieses interface hier entstanden. gleiche ästhetik, gleicher spirit. eine frage die man sonst nie gestellt bekommt:
+## warum das hier steht
 
-> *What would you build if no one was watching?*
+weil es nicht nur um cwnnwr geht. gerade sitzen überall auf der welt kluge köpfe die genau diesen spirit haben — die wissen dass bio und AI zusammengehören, die bauen wollen, die ambitioniert sind — aber keinen einstiegspunkt finden. keinen der ihnen sagt: fang hier an, benutz das, lies das, folge denen.
 
-das ganze projekt ist vibe-coded. von der ersten nachricht bis zum deploy.
+diese seite ist ein versuch genau das zu sein. ein startpunkt. ein richtungsgeber. damit leute die die welt verändern können auch tatsächlich anfangen es zu tun.
 
 ## tech
 
 - vanilla html/css/js
 - canvas neural network background
-- websocket chat interface
 - DM Mono + Instrument Serif
 - keine dependencies, keine frameworks, kein build step
+- vibe-coded von der ersten nachricht bis zum deploy
 
 ## live
 
