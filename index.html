@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>bio × ai — the map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #060606;
+    --surface: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --text: #e0e0e0;
+    --text-dim: rgba(255,255,255,0.35);
+    --text-muted: rgba(255,255,255,0.2);
+    --accent: #ffffff;
+    --accent-dim: rgba(255,255,255,0.08);
+    --accent-glow: rgba(255,255,255,0.04);
+    --green: #b8f5a0;
+    --warm: #f5e0a0;
+    --node-color: rgba(255,255,255,0.5);
+    --edge-color: rgba(255,255,255,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  canvas#neural {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  body {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+    margin-bottom: 64px;
+    animation: fadeIn 1.2s ease-out;
+  }
+
+  .tag {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(42px, 8vw, 72px);
+    color: var(--accent);
+    line-height: 1.0;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    color: var(--green);
+    font-style: italic;
+  }
+
+  .subtitle {
+    margin-top: 20px;
+    color: var(--text-dim);
+    font-size: 13px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* SECTIONS */
+  section {
+    margin-bottom: 64px;
+    animation: fadeSlideUp 0.8s ease-out both;
+  }
+
+  section:nth-child(2) { animation-delay: 0.1s; }
+  section:nth-child(3) { animation-delay: 0.15s; }
+  section:nth-child(4) { animation-delay: 0.2s; }
+  section:nth-child(5) { animation-delay: 0.25s; }
+  section:nth-child(6) { animation-delay: 0.3s; }
+  section:nth-child(7) { animation-delay: 0.35s; }
+  section:nth-child(8) { animation-delay: 0.4s; }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .lede {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  p {
+    color: var(--text);
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+    line-height: 1.75;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    background: var(--surface-hover);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .card-title {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 0.55rem;
+    padding: 2px 8px;
+    border: 1px solid var(--green);
+    color: var(--green);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .badge.warm {
+    border-color: var(--warm);
+    color: var(--warm);
+  }
+
+  .badge.white {
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.5);
+  }
+
+  .card p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 0;
+  }
+
+  .card a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .card a:hover {
+    color: var(--green);
+    border-color: var(--green);
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    background: var(--accent-dim);
+    margin: 32px 0;
+  }
+
+  .highlight-box p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    color: var(--accent);
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* LISTS */
+  .inline-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .inline-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+  }
+
+  .inline-list li:last-child { border-bottom: none; }
+
+  .inline-list .num {
+    color: var(--text-muted);
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+
+  .inline-list a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+
+  .inline-list a:hover { color: var(--green); }
+
+  /* ROADMAP */
+  .roadmap {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin-top: 8px;
+  }
+
+  .roadmap-item {
+    background: var(--surface);
+    padding: 20px;
+  }
+
+  .roadmap-month {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .roadmap-focus {
+    color: var(--text);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* PEOPLE */
+  .people {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .handle {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .handle:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* CLOSING */
+  .closing {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeIn 1s ease-out 0.5s both;
+  }
+
+  .closing .lede {
+    font-size: 26px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .page { padding: 48px 20px 80px; }
+    .roadmap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="neural"></canvas>
+
+<div class="page">
+
+<header class="header">
+  <div class="tag">for cwnnwr — bio × ai</div>
+  <h1>build things<br>that <em>matter</em></h1>
+  <p class="subtitle">Biomedizin und AI kollidieren gerade. Du stehst am Anfang deines Studiums und willst beides verbinden. Das Timing ist absurd gut.</p>
+</header>
+
+<section>
+  <div class="section-label">warum jetzt</div>
+  <p class="lede">AlphaFold hat Proteinfaltung gelöst. 50 Jahre offenes Problem. Erledigt.</p>
+  <p>Seitdem explodiert alles was Computational Biology heißt. Drug Discovery, Genomics, CRISPR-Engineering, Synthetic Bio — alles wird gerade von Leuten neu geschrieben die coden können und gleichzeitig verstehen was eine Zelle macht. Diese Kombination ist selten. Und genau da willst du hin.</p>
+
+  <div class="highlight-box">
+    <p>"Die nächste Generation von Biotech-Durchbrüchen wird nicht im Labor entdeckt. Sie wird programmiert."</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">dein setup — tag 1</div>
+  <p>Du brauchst genau drei Dinge um loszulegen. Nicht mehr.</p>
+
+  <div class="card">
+    <div class="card-title">Claude Code <span class="badge">dein co-pilot</span></div>
+    <p>Das ist dein wichtigstes Tool. Claude Code läuft im Terminal und baut mit dir zusammen. Du beschreibst was du willst, es schreibt den Code, erklärt dir was passiert, debuggt mit dir. Nicht Copy-Paste von Stack Overflow — echtes Pair Programming mit einer AI die versteht was du meinst. Installieren: <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">docs.anthropic.com/claude-code</a></p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">VS Code <span class="badge white">editor</span></div>
+    <p><a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a> — Kostenlos, läuft überall, riesiges Ökosystem. Python Extension installieren und du hast alles was du brauchst. Kein overthinking bei der Editor-Wahl — VS Code ist der Standard.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Python <span class="badge">die einzige sprache die zählt</span></div>
+    <p>Python ist die Sprache der Bioinformatik, des Machine Learning und der wissenschaftlichen Datenanalyse. Alles andere kommt später oder gar nicht. Installier dir Python, öffne VS Code, lass Claude Code laufen — und bau los.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">python lernen — in der richtigen reihenfolge</div>
+
+  <ul class="inline-list">
+    <li><span class="num">01</span><span><a href="https://kaggle.com/learn" target="_blank">kaggle.com/learn</a> — läuft im Browser, kein Setup-Stress. Python-Kurs durchmachen, dann Intro to ML. Direkt hands-on.</span></li>
+    <li><span class="num">02</span><span><a href="https://rosalind.info" target="_blank">rosalind.info</a> — Bioinformatik-Puzzles in Python. DNA-Sequenzen, Proteine, Algorithmen. Für Studierende gebaut. Macht süchtig.</span></li>
+    <li><span class="num">03</span><span><a href="https://www.fast.ai" target="_blank">fast.ai</a> — Wenn du nach 2 Monaten Python kannst: hier lernst du ML praktisch. Kein Mathe-Gatekeeping, direkt bauen und verstehen.</span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="section-label">tools die dich schneller machen</div>
+  <p>Warte nicht bis du "genug weißt". Benutz die Tools ab Tag 1 — sie sind deine Lernpartner, nicht deine Belohnung.</p>
+
+  <div class="card">
+    <div class="card-title">AlphaFold <span class="badge">mach das heute noch</span></div>
+    <p><a href="https://colab.research.google.com" target="_blank">Google Colab</a> → "AlphaFold" suchen → Proteinstruktur vorhersagen. Direkt im Browser. 10 Minuten. Kein Setup. Du siehst State-of-the-Art AI auf echte Biologie angewendet. Das ist der Moment wo es klickt.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">NotebookLM <span class="badge warm">papers verstehen</span></div>
+    <p><a href="https://notebooklm.google.com" target="_blank">notebooklm.google.com</a> — Lade Paper rein, stell Fragen, lass dir Zusammenhänge erklären. Dein persönlicher Research-Assistent. Kombinier es mit Claude: Paper in NotebookLM verstehen, dann mit Claude Code die Methoden nachbauen.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">CRISPR Ressourcen <span class="badge warm">dein zweites feld</span></div>
+    <p>CRISPR und AI verschmelzen gerade. Guide-RNA-Design wird mit ML optimiert, Off-Target-Prediction wird automatisiert. Lies <em>The Code Breaker</em> von Isaacson für den Einstieg, dann schau dir <a href="https://crispor.tefor.net" target="_blank">CRISPOR</a> an — ein Tool das zeigt wie Computational Biology CRISPR-Design verändert.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">90 tage</div>
+  <div class="roadmap">
+    <div class="roadmap-item">
+      <div class="roadmap-month">Monat 1</div>
+      <p class="roadmap-focus">Python Basics via Kaggle. VS Code + Claude Code einrichten. Erste kleine Scripts. Kein Perfektionismus.</p>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-month">Monat 2</div>
+      <p class="roadmap-focus">Rosalind Challenges. Erstes Script das DNA-Sequenzen einliest und analysiert. AlphaFold Colab ausprobieren.</p>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-month">Monat 3</div>
+      <p class="roadmap-focus">Ein Paper das dich fasziniert nehmen und versuchen den Code nachzubauen. Mit Claude Code zusammen. Das ist wo's klickt.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">wo du lernst</div>
+  <p>Communities und Kanäle die mehr bringen als jeder Uni-Kurs:</p>
+
+  <ul class="inline-list">
+    <li><span class="num">→</span><span><strong style="color:var(--accent)">r/bioinformatics</strong> — echte Leute, echte Probleme. Gut für Einstiegsfragen und um zu sehen was das Feld gerade bewegt.</span></li>
+    <li><span class="num">→</span><span><strong style="color:var(--accent)">bioRxiv.org</strong> — Pre-Print-Server. Hier landen Paper bevor sie peer-reviewed sind. Bleeding edge. Erstmal über kuratierte Feeds konsumieren.</span></li>
+    <li><span class="num">→</span><span><strong style="color:var(--accent)">StatQuest</strong> (YouTube, Josh Starmer) — der beste Erklärer für ML und Statistik der existiert. Kein Bullshit, kein Mathe-Gatekeeping.</span></li>
+    <li><span class="num">→</span><span><strong style="color:var(--accent)">3Blue1Brown</strong> (YouTube) — Neural Networks und Lineare Algebra visuell erklärt. Das Fundament das du brauchst.</span></li>
+    <li><span class="num">→</span><span><strong style="color:var(--accent)">Manolis Kellis / MIT OCW</strong> (YouTube) — Computational Biology Vorlesungen. Dicht aber outstanding. Für wenn du tiefer willst.</span></li>
+  </ul>
+
+  <p style="margin-top: 24px; font-size: 0.7rem; color: var(--text-muted);">Leute auf X die das Feld formen:</p>
+  <div class="people">
+    <span class="handle">@lpachter</span>
+    <span class="handle">@KordingLab</span>
+    <span class="handle">@DrJimFan</span>
+    <span class="handle">@michaellevin09</span>
+    <span class="handle">@casey_se_greene</span>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">lesen</div>
+  <ul class="inline-list">
+    <li><span class="num">01</span><span><em style="color:var(--accent)">The Code Breaker</em> — Isaacson über Jennifer Doudna und CRISPR. Wie echte Wissenschaft funktioniert. Kein Lehrbuch, liest sich wie ein Thriller.</span></li>
+    <li><span class="num">02</span><span><em style="color:var(--accent)">The Selfish Gene</em> — Dawkins. Verändert grundlegend wie du über Biologie und Evolution denkst.</span></li>
+    <li><span class="num">03</span><span><em style="color:var(--accent)">Bioinformatics Algorithms</em> — Compeau & Pevzner. Wenn du ernsthaft in die Theorie willst. Hat eine eigene Lernplattform.</span></li>
+  </ul>
+</section>
+
+<div class="closing">
+  <p class="lede">Die meisten warten darauf, bereit zu sein.</p>
+  <p>Du bist es nie. Und das ist okay. Der Unterschied zwischen dir und allen anderen ist nicht Talent. Es ist ob du anfängst. Du weißt was dich fasziniert — Bio und AI zusammenbringen. Das ist seltener als du denkst. Jetzt öffne VS Code, starte Claude Code, und bau was.</p>
+</div>
+
+</div>
+
+<script>
+// ─── NEURAL BACKGROUND (from index.html) ───
+const canvas = document.getElementById('neural');
+const ctx = canvas.getContext('2d');
+let width, height, nodes = [], mouse = { x: -1000, y: -1000 };
+const NODE_COUNT_MOBILE = 50;
+const NODE_COUNT_DESKTOP = 100;
+const CONNECTION_DIST = 130;
+const MOUSE_RADIUS = 150;
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = document.documentElement.scrollHeight;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  canvas.style.height = height + 'px';
+  ctx.scale(dpr, dpr);
+}
+
+class Node {
+  constructor() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 0.25;
+    this.vy = (Math.random() - 0.5) * 0.25;
+    this.baseRadius = Math.random() * 1.5 + 0.5;
+    this.radius = this.baseRadius;
+    this.pulseOffset = Math.random() * Math.PI * 2;
+    this.depth = Math.random();
+    this.opacity = 0.15 + this.depth * 0.45;
+  }
+
+  update(t) {
+    this.x += this.vx * (0.5 + this.depth * 0.5);
+    this.y += this.vy * (0.5 + this.depth * 0.5);
+
+    if (this.x < -10) this.x = width + 10;
+    if (this.x > width + 10) this.x = -10;
+    if (this.y < -10) this.y = height + 10;
+    if (this.y > height + 10) this.y = -10;
+
+    const dx = this.x - mouse.x;
+    const dy = this.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < MOUSE_RADIUS) {
+      const force = (1 - dist / MOUSE_RADIUS) * 0.8;
+      this.x += (dx / dist) * force;
+      this.y += (dy / dist) * force;
+    }
+
+    this.radius = this.baseRadius + Math.sin(t * 0.001 + this.pulseOffset) * 0.4;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.fill();
+
+    if (this.depth > 0.7) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.03 * this.depth})`;
+      ctx.fill();
+    }
+  }
+}
+
+function initNodes() {
+  const count = width < 600 ? NODE_COUNT_MOBILE : NODE_COUNT_DESKTOP;
+  nodes = [];
+  for (let i = 0; i < count; i++) nodes.push(new Node());
+}
+
+function drawEdges() {
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const maxDist = CONNECTION_DIST * (0.6 + (nodes[i].depth + nodes[j].depth) * 0.4);
+      if (dist < maxDist) {
+        const alpha = (1 - dist / maxDist) * 0.12 * Math.min(nodes[i].depth, nodes[j].depth);
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate(t) {
+  ctx.clearRect(0, 0, width, height);
+  nodes.forEach(n => n.update(t));
+  drawEdges();
+  nodes.forEach(n => n.draw());
+  requestAnimationFrame(animate);
+}
+
+resize();
+initNodes();
+requestAnimationFrame(animate);
+window.addEventListener('resize', () => { resize(); initNodes(); });
+
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY + window.scrollY;
+});
+document.addEventListener('touchmove', e => {
+  mouse.x = e.touches[0].clientX;
+  mouse.y = e.touches[0].clientY + window.scrollY;
+}, { passive: true });
+document.addEventListener('touchend', () => { mouse.x = -1000; mouse.y = -1000; });
+
+// Resize canvas when content changes height
+const resizeObserver = new ResizeObserver(() => resize());
+resizeObserver.observe(document.querySelector('.page'));
+</script>
+</body>
+</html>
