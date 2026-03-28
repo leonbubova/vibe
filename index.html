@@ -340,6 +340,55 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* ORIGIN MESSAGE */
+  .origin-message {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    padding: 24px;
+    margin: 24px 0;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .origin-message:hover, .origin-message:active {
+    background: var(--surface-hover);
+    border-color: rgba(255,255,255,0.18);
+    border-left-color: var(--green);
+  }
+
+  .origin-label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .origin-text {
+    display: block;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  .origin-cta {
+    display: block;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    transition: color 0.2s;
+  }
+
+  .origin-message:hover .origin-cta,
+  .origin-message:active .origin-cta {
+    color: var(--green);
+  }
+
   .link-pill {
     font-size: 0.8rem;
     padding: 10px 22px;
@@ -483,6 +532,25 @@
     <li><span class="num">02</span><span><a href="https://www.amazon.de/dp/0198788606" target="_blank"><em style="color:var(--accent)">The Selfish Gene</em></a> — Dawkins. Verändert grundlegend wie du über Biologie und Evolution denkst.</span></li>
     <li><span class="num">03</span><span><a href="https://www.bioinformaticsalgorithms.org" target="_blank"><em style="color:var(--accent)">Bioinformatics Algorithms</em></a> — Compeau & Pevzner. Wenn du ernsthaft in die Theorie willst. Hat eine <a href="https://stepik.org/course/55789" target="_blank">eigene Lernplattform</a>.</span></li>
   </ul>
+</section>
+
+<section>
+  <div class="section-label">wie diese seite entstanden ist</div>
+  <p class="lede">Eine Nachricht. 15 Minuten. Diese Seite.</p>
+  <p>cwnnwr hat eine Nachricht in einen Discord geschrieben. Ehrlich, direkt, ohne Filter:</p>
+
+  <a href="https://discord.com/channels/1486452648306671788/1486452649481212029/1487384774019383478" target="_blank" class="origin-message">
+    <span class="origin-label">cwnnwr — discord</span>
+    <span class="origin-text">hey people, ich habe eine ernst gemeinte Frage und erwarte deshalb auch ernsthafte und konstruktive Antworten, sofern ihr mir helfen wollt: Ich bin M, 21 Jahre Alt. Abi vor 1,5 jahren gemacht, direkt ins Ausland und die Welt gesehen, dieses Wintersemester geht Studium los. meine primären interessen liegen in der biomedicine, moleculare medicine und in general bio. sekundäres interesse besteht vorallem in ai und möchte lernen selber zu builden. [...] ich bin absolut ambitioniert beider meiner interessen im verlauf meines studiums zu kombinieren und für mich effiziente dinge zu bauen und im späteren verlauf für andere menschen.</span>
+    <span class="origin-cta">originale nachricht lesen →</span>
+  </a>
+
+  <p>Die Nachricht hat mich gepackt. Nicht weil die Frage besonders war — sondern weil der Spirit dahinter echt war. Jemand der die Welt verändern will und einen Ansatzpunkt sucht.</p>
+  <p>Also hab ich mit Claude diese Seite gebaut. Python, AlphaFold, CRISPR, Claude Code, die richtigen Communities, die richtigen Leute, einen 90-Tage-Plan. Erst als Text, dann als HTML. Erst cringe AI-Slop, dann iteriert bis es sich echt anfühlt. Von erster Nachricht bis fertige Seite: 15 Minuten. Komplett nachverfolgbar.</p>
+
+  <div class="highlight-box">
+    <p>Überall auf der Welt sitzen gerade kluge Köpfe mit genau diesem Spirit — ambitioniert, neugierig, bereit loszulegen. Aber ohne Einstiegspunkt. Diese Seite ist der Versuch, genau das zu ändern.</p>
+  </div>
 </section>
 
 <div class="closing">
