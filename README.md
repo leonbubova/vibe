@@ -24,6 +24,10 @@ diese seite ist ein versuch genau das zu sein. ein startpunkt. ein richtungsgebe
 - keine dependencies, keine frameworks, kein build step
 - vibe-coded von der ersten nachricht bis zum deploy
 
+## und das alles in 15 minuten
+
+komplett nachverfolgbar im discord. von erster nachricht bis fertige seite. ist das der echte mehrwert den wir suchen?
+
 ## live
 
 [leonbubova.github.io/vibe](https://leonbubova.github.io/vibe)
