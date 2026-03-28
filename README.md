@@ -26,7 +26,7 @@ diese seite ist ein versuch genau das zu sein. ein startpunkt. ein richtungsgebe
 
 ## und das alles in 15 minuten
 
-komplett nachverfolgbar im discord. von erster nachricht bis fertige seite. ist das der echte mehrwert den wir suchen?
+komplett nachverfolgbar im [discord](https://discord.gg/gkya33SR). von erster nachricht bis fertige seite. ist das der echte mehrwert den wir suchen?
 
 ## live
 
