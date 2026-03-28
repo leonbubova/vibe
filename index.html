@@ -197,13 +197,14 @@
   }
 
   .card a {
-    color: var(--text);
+    color: var(--accent);
     text-decoration: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
     transition: color 0.2s, border-color 0.2s;
   }
 
-  .card a:hover {
+  .card a:hover, .card a:active {
     color: var(--green);
     border-color: var(--green);
   }
@@ -249,13 +250,17 @@
   }
 
   .inline-list a {
-    color: var(--text);
+    color: var(--accent);
     text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    transition: color 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
   }
 
-  .inline-list a:hover { color: var(--green); }
+  .inline-list a:hover, .inline-list a:active {
+    color: var(--green);
+    border-color: var(--green);
+  }
 
   /* ROADMAP */
   .roadmap {
@@ -296,14 +301,18 @@
 
   .handle {
     font-size: 0.75rem;
-    padding: 5px 14px;
+    padding: 8px 16px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     border: 1px solid var(--border);
     color: var(--text-dim);
+    text-decoration: none;
     transition: all 0.2s;
-    cursor: default;
+    cursor: pointer;
   }
 
-  .handle:hover {
+  .handle:hover, .handle:active {
     border-color: var(--green);
     color: var(--green);
   }
@@ -333,7 +342,10 @@
 
   .link-pill {
     font-size: 0.8rem;
-    padding: 8px 20px;
+    padding: 10px 22px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     border: 1px solid rgba(255,255,255,0.18);
     color: var(--text-dim);
     text-decoration: none;
@@ -341,7 +353,7 @@
     transition: all 0.2s;
   }
 
-  .link-pill:hover {
+  .link-pill:hover, .link-pill:active {
     border-color: var(--green);
     color: var(--green);
   }
@@ -380,7 +392,7 @@
 
   <div class="card">
     <div class="card-title">Claude Code <span class="badge">dein co-pilot</span></div>
-    <p>Das ist dein wichtigstes Tool. Claude Code läuft im Terminal und baut mit dir zusammen. Du beschreibst was du willst, es schreibt den Code, erklärt dir was passiert, debuggt mit dir. Nicht Copy-Paste von Stack Overflow — echtes Pair Programming mit einer AI die versteht was du meinst. Installieren: <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">docs.anthropic.com/claude-code</a></p>
+    <p>Das ist dein wichtigstes Tool. Claude Code läuft im Terminal und baut mit dir zusammen. Du beschreibst was du willst, es schreibt den Code, erklärt dir was passiert, debuggt mit dir. Nicht Copy-Paste von Stack Overflow — echtes Pair Programming mit einer AI die versteht was du meinst. Installieren: <a href="https://code.claude.com/docs" target="_blank">code.claude.com/docs</a></p>
   </div>
 
   <div class="card">
@@ -390,7 +402,7 @@
 
   <div class="card">
     <div class="card-title">Python <span class="badge">die einzige sprache die zählt</span></div>
-    <p>Python ist die Sprache der Bioinformatik, des Machine Learning und der wissenschaftlichen Datenanalyse. Alles andere kommt später oder gar nicht. Installier dir Python, öffne VS Code, lass Claude Code laufen — und bau los.</p>
+    <p>Python ist die Sprache der Bioinformatik, des Machine Learning und der wissenschaftlichen Datenanalyse. Alles andere kommt später oder gar nicht. <a href="https://www.python.org/downloads/" target="_blank">Python installieren</a>, VS Code öffnen, Claude Code starten — und bau los.</p>
   </div>
 </section>
 
@@ -420,7 +432,7 @@
 
   <div class="card">
     <div class="card-title">CRISPR Ressourcen <span class="badge warm">dein zweites feld</span></div>
-    <p>CRISPR und AI verschmelzen gerade. Guide-RNA-Design wird mit ML optimiert, Off-Target-Prediction wird automatisiert. Lies <em>The Code Breaker</em> von Isaacson für den Einstieg, dann schau dir <a href="https://crispor.tefor.net" target="_blank">CRISPOR</a> an — ein Tool das zeigt wie Computational Biology CRISPR-Design verändert.</p>
+    <p>CRISPR und AI verschmelzen gerade. Guide-RNA-Design wird mit ML optimiert, Off-Target-Prediction wird automatisiert. Lies <a href="https://www.amazon.de/dp/1982115866" target="_blank"><em>The Code Breaker</em></a> von Isaacson für den Einstieg, dann schau dir <a href="https://github.com/maximilianpress/CRISPR-tools" target="_blank">CRISPR-Tools auf GitHub</a> an — eine kuratierte Liste von Computational Tools für CRISPR-Design.</p>
   </div>
 </section>
 
@@ -447,29 +459,29 @@
   <p>Communities und Kanäle die mehr bringen als jeder Uni-Kurs:</p>
 
   <ul class="inline-list">
-    <li><span class="num">→</span><span><strong style="color:var(--accent)">r/bioinformatics</strong> — echte Leute, echte Probleme. Gut für Einstiegsfragen und um zu sehen was das Feld gerade bewegt.</span></li>
-    <li><span class="num">→</span><span><strong style="color:var(--accent)">bioRxiv.org</strong> — Pre-Print-Server. Hier landen Paper bevor sie peer-reviewed sind. Bleeding edge. Erstmal über kuratierte Feeds konsumieren.</span></li>
-    <li><span class="num">→</span><span><strong style="color:var(--accent)">StatQuest</strong> (YouTube, Josh Starmer) — der beste Erklärer für ML und Statistik der existiert. Kein Bullshit, kein Mathe-Gatekeeping.</span></li>
-    <li><span class="num">→</span><span><strong style="color:var(--accent)">3Blue1Brown</strong> (YouTube) — Neural Networks und Lineare Algebra visuell erklärt. Das Fundament das du brauchst.</span></li>
-    <li><span class="num">→</span><span><strong style="color:var(--accent)">Manolis Kellis / MIT OCW</strong> (YouTube) — Computational Biology Vorlesungen. Dicht aber outstanding. Für wenn du tiefer willst.</span></li>
+    <li><span class="num">→</span><span><a href="https://www.reddit.com/r/bioinformatics/" target="_blank"><strong>r/bioinformatics</strong></a> — echte Leute, echte Probleme. Gut für Einstiegsfragen und um zu sehen was das Feld gerade bewegt.</span></li>
+    <li><span class="num">→</span><span><a href="https://www.biorxiv.org" target="_blank"><strong>bioRxiv.org</strong></a> — Pre-Print-Server. Hier landen Paper bevor sie peer-reviewed sind. Bleeding edge. Erstmal über kuratierte Feeds konsumieren.</span></li>
+    <li><span class="num">→</span><span><a href="https://www.youtube.com/@statquest" target="_blank"><strong>StatQuest</strong></a> (YouTube, Josh Starmer) — der beste Erklärer für ML und Statistik der existiert. Kein Bullshit, kein Mathe-Gatekeeping.</span></li>
+    <li><span class="num">→</span><span><a href="https://www.youtube.com/@3blue1brown" target="_blank"><strong>3Blue1Brown</strong></a> (YouTube) — Neural Networks und Lineare Algebra visuell erklärt. Das Fundament das du brauchst.</span></li>
+    <li><span class="num">→</span><span><a href="https://www.youtube.com/playlist?list=PLypiXJdtIca6U5uQOCHjP9Op3gpa177fK" target="_blank"><strong>Manolis Kellis / MIT OCW</strong></a> (YouTube) — Computational Biology Vorlesungen. Dicht aber outstanding. Für wenn du tiefer willst.</span></li>
   </ul>
 
   <p style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim);">Leute auf X die das Feld formen:</p>
   <div class="people">
-    <span class="handle">@lpachter</span>
-    <span class="handle">@KordingLab</span>
-    <span class="handle">@DrJimFan</span>
-    <span class="handle">@michaellevin09</span>
-    <span class="handle">@casey_se_greene</span>
+    <a href="https://x.com/lpachter" target="_blank" class="handle">@lpachter</a>
+    <a href="https://x.com/KordingLab" target="_blank" class="handle">@KordingLab</a>
+    <a href="https://x.com/DrJimFan" target="_blank" class="handle">@DrJimFan</a>
+    <a href="https://x.com/michaellevin09" target="_blank" class="handle">@michaellevin09</a>
+    <a href="https://x.com/casey_se_greene" target="_blank" class="handle">@casey_se_greene</a>
   </div>
 </section>
 
 <section>
   <div class="section-label">lesen</div>
   <ul class="inline-list">
-    <li><span class="num">01</span><span><em style="color:var(--accent)">The Code Breaker</em> — Isaacson über Jennifer Doudna und CRISPR. Wie echte Wissenschaft funktioniert. Kein Lehrbuch, liest sich wie ein Thriller.</span></li>
-    <li><span class="num">02</span><span><em style="color:var(--accent)">The Selfish Gene</em> — Dawkins. Verändert grundlegend wie du über Biologie und Evolution denkst.</span></li>
-    <li><span class="num">03</span><span><em style="color:var(--accent)">Bioinformatics Algorithms</em> — Compeau & Pevzner. Wenn du ernsthaft in die Theorie willst. Hat eine eigene Lernplattform.</span></li>
+    <li><span class="num">01</span><span><a href="https://www.amazon.de/dp/1982115866" target="_blank"><em style="color:var(--accent)">The Code Breaker</em></a> — Isaacson über Jennifer Doudna und CRISPR. Wie echte Wissenschaft funktioniert. Kein Lehrbuch, liest sich wie ein Thriller.</span></li>
+    <li><span class="num">02</span><span><a href="https://www.amazon.de/dp/0198788606" target="_blank"><em style="color:var(--accent)">The Selfish Gene</em></a> — Dawkins. Verändert grundlegend wie du über Biologie und Evolution denkst.</span></li>
+    <li><span class="num">03</span><span><a href="https://www.bioinformaticsalgorithms.org" target="_blank"><em style="color:var(--accent)">Bioinformatics Algorithms</em></a> — Compeau & Pevzner. Wenn du ernsthaft in die Theorie willst. Hat eine <a href="https://stepik.org/course/55789" target="_blank">eigene Lernplattform</a>.</span></li>
   </ul>
 </section>
 
