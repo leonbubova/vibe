@@ -331,6 +331,21 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  .link-pill {
+    font-size: 0.7rem;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+
+  .link-pill:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
   @media (max-width: 500px) {
     .page { padding: 48px 20px 80px; }
     .roadmap { grid-template-columns: 1fr; }
@@ -461,6 +476,12 @@
 <div class="closing">
   <p class="lede">Die meisten warten darauf, bereit zu sein.</p>
   <p>Du bist es nie. Und das ist okay. Der Unterschied zwischen dir und allen anderen ist nicht Talent. Es ist ob du anfängst. Du weißt was dich fasziniert — Bio und AI zusammenbringen. Das ist seltener als du denkst. Jetzt öffne VS Code, starte Claude Code, und bau was.</p>
+
+  <div class="links" style="margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap;">
+    <a href="https://discord.gg/gkya33SR" target="_blank" class="link-pill">discord</a>
+    <a href="https://github.com/leonbubova" target="_blank" class="link-pill">github</a>
+    <a href="https://www.linkedin.com/in/leonbubova/" target="_blank" class="link-pill">linkedin</a>
+  </div>
 </div>
 
 </div>
